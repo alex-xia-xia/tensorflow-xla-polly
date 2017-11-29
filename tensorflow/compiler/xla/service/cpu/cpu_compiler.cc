@@ -326,7 +326,8 @@ Status CpuCompiler::RunHloPasses(HloModule* module, bool is_aot_compile) {
   if (options::CpuParallelBackendRequested(module->config())) {
     pipeline.AddPass<ParallelizationPreparation>(max_parallelism,
                                                  ShapeSizeBytesFunction());
-  } else if (!is_aot_compile) {
+  } else if (!is_aot_compile &&
+		  !options::ParallelTaskAssignerDisabled(module->config())) {
     // Run ParallelTaskAssigner to assign parallel tasks to HLOs in module.
     // Note this is not run for AOT because it would bring in thread pool
     // and thread synchronization dependencies which would likely increase
