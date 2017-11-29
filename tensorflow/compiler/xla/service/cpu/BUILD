@@ -19,6 +19,15 @@ load("//tensorflow:tensorflow.bzl", "tf_cc_test")
 load("//tensorflow:tensorflow.bzl", "tf_cc_binary")
 load("//tensorflow/compiler/xla:xla.bzl", "ORC_JIT_MEMORY_MAPPER_TARGETS")
 
+config_setting(
+    name = "using_polly",
+    values = {
+        "polly": "true",
+    },
+    visibility = ["//tensorflow:internal"]
+)
+    #visibility = ["@%ws%//tensorflow:internal"]
+
 # Filegroup used to collect source files for dependency checking.
 filegroup(
     name = "c_srcs",
@@ -368,6 +377,7 @@ cc_library(
         "@llvm//:object",
         "@llvm//:support",
         "@llvm//:target",
+        "@llvm//:polly",
     ],
 )
 
