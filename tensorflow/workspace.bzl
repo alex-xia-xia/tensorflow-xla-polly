@@ -582,7 +582,7 @@ def tf_workspace(path_prefix="", tf_repo_name=""):
 #          "https://mirror.bazel.build/github.com/llvm-mirror/llvm/archive/8d26b8bee4d8e7230870a600bc968c7ee8cf6f67.tar.gz",
 #          "https://github.com/llvm-mirror/llvm/archive/8d26b8bee4d8e7230870a600bc968c7ee8cf6f67.tar.gz",
       ],
-      sha256 = "23542e2a7f060cb59c2480f0fc756f004f2bb7f8bc139af1cae9329fd66d1184",
+      sha256 = "0f867eddbe03d6d3fd5f25112cd52e5223ceb5d3a132d8534816893953d7592a",
       strip_prefix = "llvm",
       build_file = str(Label("//third_party/llvm:llvm.BUILD")),
       repository = tf_repo_name,
