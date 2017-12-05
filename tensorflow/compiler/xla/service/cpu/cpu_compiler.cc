@@ -303,7 +303,7 @@ Status CpuCompiler::RunHloPasses(HloModule* module, bool is_aot_compile) {
       },
       TransposeFolding::NeverFoldTranspose);
   pipeline.AddPass<HloCSE>(/*is_layout_sensitive=*/false);
-  pipeline.AddPass<CpuInstructionFusion>();
+//  pipeline.AddPass<CpuInstructionFusion>();
 
   ReducePrecisionInsertion::AddPasses(
       &pipeline, module->config().debug_options(),
