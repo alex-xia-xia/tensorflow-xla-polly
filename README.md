@@ -1,3 +1,38 @@
+NOTES:
+
+Download and setup llvm + polly:
+https://github.com/arpith-jacob/llvm
+https://github.com/arpith-jacob/polly
+
+Build:
+bazel build --jobs 4 --genrule_strategy=standalone --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+
+Execute:
+Setup your environment:
+export TF_XLA_FLAGS='--xla_generate_hlo_text_to=/tmp --xla_cpu_multi_thread_eigen=false --xla_backend_extra_options=xla_disable_parallel_task_assigner --xla_backend_extra_options=-polly --xla_backend_extra_options=-polly-parallel --xla_backend_extra_options=-polly-pattern-matching-based-opts=false --xla_backend_extra_options=-polly-optimized-scops=true --xla_backend_extra_options=-polly-invariant-load-hoisting=true --xla_dump_ir_to=/tmp'
+
+```python
+import tensorflow as tf
+import numpy as np
+session = tf.Session()
+image = tf.placeholder(np.float32, shape=[128, 128, 128, 2])
+filter = tf.placeholder(np.float32, shape=[2, 2, 2, 2])
+bias = tf.placeholder(np.float32, shape=[128, 128, 128, 2])
+with tf.device('/device:XLA_CPU:0'):
+    convolution = tf.nn.conv2d(image, filter, [1, 1, 1, 1], padding="SAME", data_format='NHWC')
+    result = tf.nn.relu(convolution + bias)
+
+    img_input = np.ones((128, 128, 128, 2), np.float32)
+    filter_input = np.ones((2, 2, 2, 2), np.float32)
+    bias_input = np.ones((128, 128, 128, 2), np.float32)
+    # Use convolution layer on 4D matrices.
+    # Initialize session.
+    print(session.run(result, feed_dict={
+            image: img_input,
+            filter: filter_input,
+            bias: bias_input}))
+```
+
 <div align="center">
   <img src="https://www.tensorflow.org/images/tf_logo_transp.png"><br><br>
 </div>
