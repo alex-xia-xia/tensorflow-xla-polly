@@ -931,7 +931,7 @@ Status IrEmitter::HandleConvolution(HloInstruction* convolution) {
   const ConvolutionDimensionNumbers& dnums =
       convolution->convolution_dimension_numbers();
 
-  if (PotentiallyImplementedAsEigenConvolution(*convolution)) {
+  if (0 && PotentiallyImplementedAsEigenConvolution(*convolution)) {
     const Shape& lhs_shape = lhs->shape();
     const Shape& rhs_shape = rhs->shape();
     const Shape& convolution_shape = convolution->shape();
