@@ -38,6 +38,7 @@ limitations under the License.
 #include "tensorflow/compiler/xla/service/cpu/runtime_matmul.h"
 #include "tensorflow/compiler/xla/service/cpu/runtime_single_threaded_conv2d.h"
 #include "tensorflow/compiler/xla/service/cpu/runtime_single_threaded_matmul.h"
+#include "tensorflow/compiler/xla/service/cpu/runtime_gomp.h"
 #include "tensorflow/compiler/xla/types.h"
 #include "tensorflow/core/platform/logging.h"
 
@@ -288,6 +289,15 @@ bool RegisterKnownJITSymbols() {
   registry->Register("memcpy", reinterpret_cast<void*>(memcpy));
   registry->Register("memmove", reinterpret_cast<void*>(memmove));
   registry->Register("memset", reinterpret_cast<void*>(memset));
+
+  registry->Register("GOMP_parallel_loop_runtime_start",
+    reinterpret_cast<void*>(GOMP_parallel_loop_runtime_start));
+  registry->Register("GOMP_parallel_end",
+    reinterpret_cast<void*>(GOMP_parallel_end));
+  registry->Register("GOMP_loop_runtime_next",
+    reinterpret_cast<void*>(GOMP_loop_runtime_next));
+  registry->Register("GOMP_loop_end_nowait",
+    reinterpret_cast<void*>(GOMP_loop_end_nowait));
   return true;
 }
 
