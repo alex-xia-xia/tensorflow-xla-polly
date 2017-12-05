@@ -1013,6 +1013,7 @@ bool PotentiallyImplementedAsEigenDot(const HloInstruction& hlo) {
 DotInLlvmIrProfitable ProfitableToImplementDotInUntiledLlvmIr(
     const HloInstruction& dot) {
   if (dot.opcode() == HloOpcode::kDot && dot.shape().dimensions_size() == 2) {
+#if 0
     const Shape& result_shape = dot.shape();
     // kReductionDimensionThresholdBytes was chosen to be 1/4 of a typical L1
     // cache line size, so that we can have the reduction dimension of both the
@@ -1048,6 +1049,8 @@ DotInLlvmIrProfitable ProfitableToImplementDotInUntiledLlvmIr(
                  ? DotInLlvmIrProfitable::kWithColumnMajorRhs
                  : DotInLlvmIrProfitable::kYes;
     }
+#endif
+    return DotInLlvmIrProfitable::kYes;
   }
   return DotInLlvmIrProfitable::kNo;
 }
